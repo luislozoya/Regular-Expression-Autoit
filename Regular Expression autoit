@@ -1,0 +1,192 @@
+#include <Misc.au3>
+#include <MsgBoxConstants.au3>
+#include <WinAPIFiles.au3>
+
+
+Dim $CSVFILE = @ScriptDir & "\Data\key.ini"
+Dim $txtQSELECT = @ScriptDir & "\Data\qselect.txt"
+Dim $txtQCURSOR = @ScriptDir & "\Data\qcursor.txt"
+HotKeySet("^+!3", "sendsdu3");CTRL + Shift-Alt
+HotKeySet("^+!4", "sendkey")
+HotKeySet("^+!5", "sendsdu5")
+HotKeySet("^+!6", "sendsdu6")
+HotKeySet("^+!l", "senduser")
+
+HotKeySet("^+!t", "toad")
+HotKeySet("^+!f", "firefox")
+HotKeySet("^+!v", "virtual")
+
+HotKeySet("^+!o", "ontop")
+HotKeySet("^+o", "noontop")
+
+HotKeySet("^+!c", "qcursor")
+;HotKeySet("^+t", "trigger")
+HotKeySet("^+!s", "qselect")
+;HotKeySet("^+i", "insert")
+
+
+$vFlag = True
+
+While 1
+
+	Sleep(200)
+WEnd
+
+
+Func ontop()
+
+	$hWnd = WinGetHandle("[ACTIVE]")
+	WinSetOnTop($hWnd, "", $WINDOWS_ONTOP)
+	$vFlag = False
+	TrayTip("ontop", "Acti", 1)
+
+EndFunc   ;==>Example
+
+Func noontop()
+
+	$hWnd = WinGetHandle("[ACTIVE]")
+	WinSetOnTop($hWnd, "", $WINDOWS_NOONTOP)
+	$vFlag = True
+	TrayTip("ontop", "Deacti", 1)
+
+EndFunc
+
+Func toad()
+	ShellExecute("C:\Program Files\Dell\Toad for Oracle 12.6\Toad.exe")
+EndFunc
+
+Func firefox()
+	ShellExecute("C:\Program Files (x86)\Mozilla Firefox\firefox.exe")
+EndFunc
+
+Func virtual()
+	ShellExecute("C:\Program Files\Oracle\VirtualBox\VirtualBox.exe")
+EndFunc
+
+Func sendsdu3()
+	$inirSDU3 = IniRead($CSVFILE, "sinter", "SDU3", "")
+	While 1
+		IF NOT(_IsPressed("10")) AND NOT(_IsPressed("11")) AND NOT (_IsPressed("12")) THEN
+			ControlSend("", "", "", $inirSDU3, 0)
+			ExitLoop
+		EndIf
+	WEnd
+
+EndFunc
+
+Func sendsdu5()
+	$inirSDU5 = IniRead($CSVFILE, "sinter", "SDU5", "")
+	While 1
+		IF NOT(_IsPressed("10")) AND NOT(_IsPressed("11")) AND NOT (_IsPressed("12")) THEN
+			ControlSend("", "", "", $inirSDU5, 0)
+			ExitLoop
+		EndIf
+	WEnd
+
+EndFunc
+
+Func sendsdu6()
+	$inirSDU6 = IniRead($CSVFILE, "sinter", "SDU6", "")
+
+	While 1
+		IF NOT(_IsPressed("10")) AND NOT(_IsPressed("11")) AND NOT (_IsPressed("12")) THEN
+			ControlSend("", "", "", $inirSDU6, 0)
+			ExitLoop
+		EndIf
+	WEnd
+
+EndFunc
+
+Func senduser()
+	;$inirUser = IniRead($CSVFILE, "sinter", "SDU6", "")
+;~ 	send('LALOZOYA')
+;~ 	Sleep(500)
+;~ 	Send("{LCTRL}")
+;~ 	Send("{LALT}")
+;~ 	Send("{LSHIFT}")
+;~ 	Send("{CTRLUP}")
+;~ 	Send("{ALTUP}")
+;~ 	Send("{SHIFTUP}")
+;~  send("{SHIFTDOWN}{SHIFTUP}")
+;~  send("{ALTDOWN}{SHIFTUP}")
+;~  send("{CTRLDOWN}{SHIFTUP}")
+
+;~ 	send("{SHIFTUP}")
+;~  	send("{ALTUP}")
+;~  	send("{CTRLUP}")
+;~
+
+;~ 	 10 SHIFT key
+;~     11 CTRL key
+;~     12 ALT key
+
+While 1
+	IF NOT(_IsPressed("10")) AND NOT(_IsPressed("11")) AND NOT (_IsPressed("12")) THEN
+		Sleep(200)
+		ControlSend("", "", "", "LALOZOYA", 0)
+		;Send("hey")
+		ExitLoop
+	EndIf
+WEnd
+
+EndFunc
+
+Func sendkey()
+	$inirKey = IniRead($CSVFILE, "sinter", "KEY", "")
+	While 1
+		IF NOT(_IsPressed("10")) AND NOT(_IsPressed("11")) AND NOT (_IsPressed("12")) THEN
+			Sleep(200)
+			ControlSend("", "", "", $inirKey, 0)
+			ExitLoop
+		EndIf
+	WEnd
+
+EndFunc
+
+Func qselect()
+
+	Local $hFileOpen = FileOpen($txtQSELECT, $FO_READ)
+	If $hFileOpen = -1 Then
+		MsgBox($MB_SYSTEMMODAL, "", "An error occurred when reading the file." & $hFileOpen & "route " & @ScriptDir & "\Data\qselect.txt")
+		Return False
+	EndIf
+
+	Local $sFileRead = FileRead($hFileOpen)
+	FileClose($hFileOpen)
+    ClipPut($sFileRead)
+    ;$sData = ClipGet()
+
+	While 1
+		IF NOT(_IsPressed("10")) AND NOT(_IsPressed("11")) AND NOT (_IsPressed("12")) THEN
+			;ControlSend("", "", "", "{LCTRL}{LSHIFT}", 0)
+			Send("{CTRLDOWN}v{CTRLUP}")
+			ExitLoop
+		EndIf
+	WEnd
+
+
+EndFunc
+
+Func qcursor()
+
+	Local $hFileOpen = FileOpen($txtQCURSOR, $FO_READ)
+	If $hFileOpen = -1 Then
+		MsgBox($MB_SYSTEMMODAL, "", "An error occurred when reading the file." & $hFileOpen & "route " & @ScriptDir & "\Data\qselect.txt")
+		Return False
+	EndIf
+
+	Local $sFileRead = FileRead($hFileOpen)
+	FileClose($hFileOpen)
+    ClipPut($sFileRead)
+    ;$sData = ClipGet()
+
+	While 1
+		IF NOT(_IsPressed("10")) AND NOT(_IsPressed("11")) AND NOT (_IsPressed("12")) THEN
+			;ControlSend("", "", "", "{LCTRL}{LSHIFT}", 0)
+			Send("{CTRLDOWN}v{CTRLUP}")
+			ExitLoop
+		EndIf
+	WEnd
+
+
+EndFunc
